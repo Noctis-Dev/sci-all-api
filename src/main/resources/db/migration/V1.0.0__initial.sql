@@ -1,5 +1,6 @@
 CREATE TABLE `role` (
   `role_id` bigint PRIMARY KEY AUTO_INCREMENT,
+  `role_uuid` varchar(36) NOT NULL,
   `name` varchar(20) NOT NULL,
   `description` varchar(255)
 );
@@ -9,7 +10,7 @@ CREATE TABLE `users` (
   `user_uuid` varchar(36) NOT NULL,
   `username` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `phone_number` varchar(50) NOT NULL,
+  `phone_number` varchar(13) NOT NULL,
   `password` varchar(255) NOT NULL,
   `verified` bool DEFAULT false,
   `verify_token` varchar(36) NOT NULL,
@@ -70,11 +71,21 @@ CREATE TABLE `comments` (
   `stream` bigint
 );
 
-CREATE TABLE `likes` (
+CREATE TABLE `publication_likes` (
   `like_id` bigint PRIMARY KEY AUTO_INCREMENT,
   `like_uuid` varchar(36) NOT NULL,
-  `user_id` bigint,
-  `publication` bigint,
+  `publication` bigint
+);
+
+CREATE TABLE `stream_likes` (
+  `like_id` bigint PRIMARY KEY AUTO_INCREMENT,
+  `like_uuid` varchar(36) NOT NULL,
+  `stream` bigint
+);
+
+CREATE TABLE `comment_likes` (
+  `like_id` bigint PRIMARY KEY AUTO_INCREMENT,
+  `like_uuid` varchar(36) NOT NULL,
   `stream` bigint
 );
 
@@ -100,8 +111,8 @@ ALTER TABLE `comments` ADD FOREIGN KEY (`publication`) REFERENCES `publications`
 
 ALTER TABLE `comments` ADD FOREIGN KEY (`stream`) REFERENCES `streams` (`stream_id`);
 
-ALTER TABLE `likes` ADD FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+ALTER TABLE `publication_likes` ADD FOREIGN KEY (`publication`) REFERENCES `publications` (`publication_id`);
 
-ALTER TABLE `likes` ADD FOREIGN KEY (`publication`) REFERENCES `publications` (`publication_id`);
+ALTER TABLE `stream_likes` ADD FOREIGN KEY (`stream`) REFERENCES `streams` (`stream_id`);
 
-ALTER TABLE `likes` ADD FOREIGN KEY (`stream`) REFERENCES `streams` (`stream_id`);
+ALTER TABLE `comment_likes` ADD FOREIGN KEY (`stream`) REFERENCES `streams` (`stream_id`);
