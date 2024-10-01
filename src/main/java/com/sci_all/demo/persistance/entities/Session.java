@@ -6,8 +6,11 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -22,8 +25,9 @@ public class Session {
 
     @Size(max = 36)
     @NotNull
+    @JdbcTypeCode(SqlTypes.VARCHAR)
     @Column(name = "session_uuid", nullable = false, length = 36)
-    private String uuid;
+    private UUID uuid;
 
     @ColumnDefault("0")
     @Column(name = "verified")

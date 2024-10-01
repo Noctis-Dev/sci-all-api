@@ -1,6 +1,8 @@
 package com.sci_all.demo.configuration.security;
 
+import com.sci_all.demo.configuration.security.filters.JwtAuthorizationFilter;
 import com.sci_all.demo.configuration.security.filters.UserAuthenticationFilter;
+import com.sci_all.demo.configuration.security.jwt.JwtConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +14,8 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
+import javax.crypto.SecretKey;
+
 @Configuration
 @EnableWebSecurity
 public class ApplicationSecurityConfig {
@@ -19,10 +23,19 @@ public class ApplicationSecurityConfig {
     @Autowired
     private AuthenticationManager userAuthManager;
 
+    @Autowired
+    private JwtAuthorizationFilter authorizationFilter;
+
+    @Autowired
+    private JwtConfig jwtConfig;
+
+    @Autowired
+    private SecretKey secretKey;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        UserAuthenticationFilter userAuthenticationFilter = new UserAuthenticationFilter();
+        UserAuthenticationFilter userAuthenticationFilter = new UserAuthenticationFilter(jwtConfig, secretKey);
         userAuthenticationFilter.setAuthenticationManager(userAuthManager);
         userAuthenticationFilter.setFilterProcessesUrl("/user/login");
 
@@ -31,7 +44,8 @@ public class ApplicationSecurityConfig {
         http.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         /* FILTERS */
-        http.addFilter(userAuthenticationFilter);
+        http.addFilter(userAuthenticationFilter)
+                .addFilterBefore(authorizationFilter, UserAuthenticationFilter.class);
 
         http.authorizeHttpRequests(auth -> {
             auth.requestMatchers("/user/**").permitAll();

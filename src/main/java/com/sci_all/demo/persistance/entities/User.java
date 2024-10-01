@@ -66,7 +66,7 @@ public class User {
     private LocalDate deletedAt;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "role", nullable = false)
     private Role role;
 
