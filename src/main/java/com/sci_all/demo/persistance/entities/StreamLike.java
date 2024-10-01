@@ -9,28 +9,24 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "likes", schema = "sci_db", indexes = {
-        @Index(name = "user_id", columnList = "user_id"),
-        @Index(name = "publication", columnList = "publication"),
+@Table(name = "stream_likes", schema = "sci_db", indexes = {
+        @Index(name = "author", columnList = "author"),
         @Index(name = "stream", columnList = "stream")
 })
-public class Like {
+public class StreamLike {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "like_id", nullable = false)
     private Long id;
 
     @Size(max = 36)
     @NotNull
     @Column(name = "like_uuid", nullable = false, length = 36)
-    private String uuid;
+    private String likeUuid;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "publication")
-    private Publication publication;
+    @JoinColumn(name = "author")
+    private User author;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stream")
