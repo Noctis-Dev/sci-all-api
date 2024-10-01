@@ -31,7 +31,8 @@ CREATE TABLE `publications` (
   `publication_id` bigint PRIMARY KEY AUTO_INCREMENT,
   `publication_uuid` varchar(36) NOT NULL,
   `body` varchar(255),
-  `author` bigint NOT NULL
+  `author` bigint NOT NULL,
+  `deleted_at` date
 );
 
 CREATE TABLE `resources` (
@@ -74,18 +75,21 @@ CREATE TABLE `comments` (
 CREATE TABLE `publication_likes` (
   `like_id` bigint PRIMARY KEY AUTO_INCREMENT,
   `like_uuid` varchar(36) NOT NULL,
+  `author` bigint,
   `publication` bigint
 );
 
 CREATE TABLE `stream_likes` (
   `like_id` bigint PRIMARY KEY AUTO_INCREMENT,
   `like_uuid` varchar(36) NOT NULL,
+  `author` bigint,
   `stream` bigint
 );
 
 CREATE TABLE `comment_likes` (
   `like_id` bigint PRIMARY KEY AUTO_INCREMENT,
   `like_uuid` varchar(36) NOT NULL,
+  `author` bigint,
   `stream` bigint
 );
 
@@ -111,8 +115,14 @@ ALTER TABLE `comments` ADD FOREIGN KEY (`publication`) REFERENCES `publications`
 
 ALTER TABLE `comments` ADD FOREIGN KEY (`stream`) REFERENCES `streams` (`stream_id`);
 
+ALTER TABLE `publication_likes` ADD FOREIGN KEY (`author`) REFERENCES `users` (`user_id`);
+
 ALTER TABLE `publication_likes` ADD FOREIGN KEY (`publication`) REFERENCES `publications` (`publication_id`);
 
+ALTER TABLE `stream_likes` ADD FOREIGN KEY (`author`) REFERENCES `users` (`user_id`);
+
 ALTER TABLE `stream_likes` ADD FOREIGN KEY (`stream`) REFERENCES `streams` (`stream_id`);
+
+ALTER TABLE `comment_likes` ADD FOREIGN KEY (`author`) REFERENCES `users` (`user_id`);
 
 ALTER TABLE `comment_likes` ADD FOREIGN KEY (`stream`) REFERENCES `streams` (`stream_id`);

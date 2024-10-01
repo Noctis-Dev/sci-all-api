@@ -10,4 +10,5 @@ public interface IUserService {
     BaseResponse createUser(UserRequest request);
     BaseResponse verifyUser(String token, UUID userId);
     User findByEmail(String email);
+    User findOneAndEnsureExists(UUID userId);
 }

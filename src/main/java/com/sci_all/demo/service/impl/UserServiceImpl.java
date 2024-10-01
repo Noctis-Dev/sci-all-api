@@ -73,6 +73,11 @@ public class UserServiceImpl implements IUserService {
         return repository.findByEmail(email).orElseThrow(EntityNotFoundException::new);
     }
 
+    @Override
+    public User findOneAndEnsureExists(UUID userId) {
+        return repository.findByUuid(userId).orElseThrow(EntityNotFoundException::new);
+    }
+
     private User toUser(UserRequest request) {
         User user = new User();
 
