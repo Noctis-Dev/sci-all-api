@@ -1,6 +1,5 @@
 CREATE TABLE `role` (
   `role_id` bigint PRIMARY KEY AUTO_INCREMENT,
-  `role_uuid` varchar(36) NOT NULL,
   `name` varchar(20) NOT NULL,
   `description` varchar(255)
 );
@@ -9,21 +8,14 @@ CREATE TABLE `users` (
   `user_id` bigint PRIMARY KEY AUTO_INCREMENT,
   `user_uuid` varchar(36) NOT NULL,
   `username` varchar(50) NOT NULL,
-  `created_at` date NOT NULL,
-  `deleted_at` date,
-  `role` bigint NOT NULL,
-  `credential` bigint NOT NULL
-);
-
-CREATE TABLE `credentials` (
-  `credential_id` bigint PRIMARY KEY NOT NULL,
-  `credential_uuid` varchar(36) NOT NULL,
   `email` varchar(50) NOT NULL,
   `phone_number` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `verified` bool DEFAULT false,
   `verify_token` varchar(36) NOT NULL,
-  `created_at` date NOT NULL
+  `created_at` date NOT NULL,
+  `deleted_at` date,
+  `role` bigint NOT NULL
 );
 
 CREATE TABLE `sessions` (
@@ -87,8 +79,6 @@ CREATE TABLE `likes` (
 );
 
 ALTER TABLE `users` ADD FOREIGN KEY (`role`) REFERENCES `role` (`role_id`);
-
-ALTER TABLE `users` ADD FOREIGN KEY (`credential`) REFERENCES `credentials` (`credential_id`);
 
 ALTER TABLE `sessions` ADD FOREIGN KEY (`user`) REFERENCES `users` (`user_id`);
 

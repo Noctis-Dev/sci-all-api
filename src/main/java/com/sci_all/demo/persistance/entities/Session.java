@@ -23,7 +23,7 @@ public class Session {
     @Size(max = 36)
     @NotNull
     @Column(name = "session_uuid", nullable = false, length = 36)
-    private String sessionUuid;
+    private String uuid;
 
     @ColumnDefault("0")
     @Column(name = "verified")

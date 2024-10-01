@@ -22,7 +22,7 @@ public class Comment {
     @Size(max = 36)
     @NotNull
     @Column(name = "comment_uuid", nullable = false, length = 36)
-    private String commentUuid;
+    private String uuid;
 
     @Size(max = 255)
     @Column(name = "body")

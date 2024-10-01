@@ -20,7 +20,7 @@ public class Publication {
     @Size(max = 36)
     @NotNull
     @Column(name = "publication_uuid", nullable = false, length = 36)
-    private String publicationUuid;
+    private String uuid;
 
     @Size(max = 255)
     @Column(name = "body")
