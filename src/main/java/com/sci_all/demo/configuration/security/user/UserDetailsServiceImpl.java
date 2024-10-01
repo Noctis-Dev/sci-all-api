@@ -1,5 +1,7 @@
 package com.sci_all.demo.configuration.security.user;
 
+import com.sci_all.demo.persistance.entities.User;
+import com.sci_all.demo.service.ISessionService;
 import com.sci_all.demo.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,8 +15,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private IUserService userService;
 
+    @Autowired
+    private ISessionService sessionService;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return null;
+        User user = userService.findByEmail(username);
+        sessionService.createSession(user);
+        return new UserDetailsImpl(user);
     }
 }
