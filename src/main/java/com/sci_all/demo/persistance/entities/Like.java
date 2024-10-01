@@ -22,7 +22,7 @@ public class Like {
     @Size(max = 36)
     @NotNull
     @Column(name = "like_uuid", nullable = false, length = 36)
-    private String likeUuid;
+    private String uuid;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

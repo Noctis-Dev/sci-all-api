@@ -20,7 +20,7 @@ public class Stream {
     @Size(max = 36)
     @NotNull
     @Column(name = "stream_uuid", nullable = false, length = 36)
-    private String streamUuid;
+    private String uuid;
 
     @Size(max = 36)
     @Column(name = "stream_token", length = 36)

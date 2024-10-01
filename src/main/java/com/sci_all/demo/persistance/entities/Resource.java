@@ -21,7 +21,7 @@ public class Resource {
     @Size(max = 36)
     @NotNull
     @Column(name = "resource_uuid", nullable = false, length = 36)
-    private String resourceUuid;
+    private String uuid;
 
     @Size(max = 255)
     @NotNull
