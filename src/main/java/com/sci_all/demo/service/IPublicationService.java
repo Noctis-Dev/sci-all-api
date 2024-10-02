@@ -1,5 +1,6 @@
 package com.sci_all.demo.service;
 
+import com.sci_all.demo.persistance.entities.Publication;
 import com.sci_all.demo.web.dto.BaseResponse;
 import com.sci_all.demo.web.dto.request.PublicationRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,5 +15,7 @@ public interface IPublicationService {
     BaseResponse updatePublication(PublicationRequest request, UUID publicationId);
     BaseResponse publicationLike(UUID publicationId, UUID userId);
     BaseResponse deletePublication(UUID publicationId);
+
+    Publication findOneAndEnsureExist(UUID publicationId);
 
 }
