@@ -59,10 +59,10 @@ public class PublicationServiceImpl implements IPublicationService {
     }
 
     @Override
-    public BaseResponse createPublication(PublicationRequest request) {
+    public BaseResponse createPublication(PublicationRequest request, UUID userId) {
         Publication publication = toPublication(request);
 
-        publication.setAuthor(userService.findOneAndEnsureExists(request.authorId()));
+        publication.setAuthor(userService.findOneAndEnsureExists(userId));
         publication.setUuid(UUIDUtils.generateUniqueUUID(repository));
         Publication savedPublication = repository.save(publication);
 

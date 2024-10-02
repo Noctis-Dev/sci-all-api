@@ -9,5 +9,6 @@ public record UserResponse(
     String username,
     String email,
     String phoneNumber,
-    LocalDate createdAt
+    LocalDate createdAt,
+    LocalDate deletedAt
 ) { }
