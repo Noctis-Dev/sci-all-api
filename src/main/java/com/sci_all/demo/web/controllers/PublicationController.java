@@ -32,8 +32,9 @@ public class PublicationController {
     }
 
     @PostMapping
-    public ResponseEntity<BaseResponse> createPublication(@RequestBody PublicationRequest request) {
-        return service.createPublication(request).apply();
+    public ResponseEntity<BaseResponse> createPublication(@RequestBody PublicationRequest request,
+                                                          @RequestParam UUID userId) {
+        return service.createPublication(request, userId).apply();
     }
 
     @PostMapping("{publicationId}/like")

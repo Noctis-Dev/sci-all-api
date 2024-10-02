@@ -10,7 +10,7 @@ public interface IPublicationService {
 
     BaseResponse getPublications(Pageable pageable);
     BaseResponse getPublicationById(UUID publicationId);
-    BaseResponse createPublication(PublicationRequest request);
+    BaseResponse createPublication(PublicationRequest request, UUID userId);
     BaseResponse updatePublication(PublicationRequest request, UUID publicationId);
     BaseResponse publicationLike(UUID publicationId, UUID userId);
     BaseResponse deletePublication(UUID publicationId);

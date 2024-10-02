@@ -34,6 +34,19 @@ public class UserServiceImpl implements IUserService {
     private PasswordEncoder passwordEncoder;
 
     @Override
+    public BaseResponse getUserById(UUID userId) {
+        User user = repository.findByUuidAndDeletedAtEmpty(userId)
+                .orElseThrow(EntityNotFoundException::new);
+
+        return BaseResponse.builder()
+                .data(toUserResponse(user))
+                .message("User found successfully")
+                .success(true)
+                .status(200)
+                .httpStatus(HttpStatus.OK).build();
+    }
+
+    @Override
     public BaseResponse createUser(UserRequest request) {
         User user = toUser(request);
 
@@ -45,7 +58,7 @@ public class UserServiceImpl implements IUserService {
         twilioService.sendVerificationCode(user.getPhoneNumber(), user.getVerifyToken());
 
         return BaseResponse.builder()
-                .data(userResponse(repository.save(user)))
+                .data(toUserResponse(repository.save(user)))
                 .message("User created successfully with id: " + user.getUuid())
                 .success(true)
                 .status(200)
@@ -61,8 +74,36 @@ public class UserServiceImpl implements IUserService {
         repository.save(user);
 
         return BaseResponse.builder()
-                .data(userResponse(user))
+                .data(toUserResponse(user))
                 .message("User verified successfully")
+                .success(true)
+                .status(200)
+                .httpStatus(HttpStatus.OK).build();
+    }
+
+    @Override
+    public BaseResponse updateUser(UUID userId, UserRequest request) {
+        User user = findOneAndEnsureExists(userId);
+
+        update(user, request);
+        User updatedUser = repository.save(user);
+
+        return BaseResponse.builder()
+                .data(toUserResponse(updatedUser))
+                .message("User updated successfully")
+                .success(true)
+                .status(200)
+                .httpStatus(HttpStatus.OK).build();
+    }
+
+    @Override
+    public BaseResponse deleteUser(UUID userId) {
+        User user = findOneAndEnsureExists(userId);
+        user.setDeletedAt(LocalDate.now());
+
+        return BaseResponse.builder()
+                .data(toUserResponse(repository.save(user)))
+                .message("User deleted successfully")
                 .success(true)
                 .status(200)
                 .httpStatus(HttpStatus.OK).build();
@@ -76,6 +117,13 @@ public class UserServiceImpl implements IUserService {
     @Override
     public User findOneAndEnsureExists(UUID userId) {
         return repository.findByUuid(userId).orElseThrow(EntityNotFoundException::new);
+    }
+
+    private void update(User user, UserRequest request) {
+        user.setUsername(request.username());
+        user.setEmail(request.email());
+        user.setPhoneNumber(request.phoneNumber());
+        user.setPassword(passwordEncoder.encode(request.password()));
     }
 
     private User toUser(UserRequest request) {
@@ -92,14 +140,15 @@ public class UserServiceImpl implements IUserService {
         return user;
     }
 
-    private UserResponse userResponse(User user) {
+    private UserResponse toUserResponse(User user) {
         return new UserResponse(
                 user.getUuid(),
                 user.getRole().getName(),
                 user.getUsername(),
                 user.getEmail(),
                 user.getPhoneNumber(),
-                user.getCreatedAt()
+                user.getCreatedAt(),
+                user.getDeletedAt()
         );
     }
 
