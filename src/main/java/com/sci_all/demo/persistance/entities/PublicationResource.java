@@ -14,6 +14,7 @@ import lombok.Setter;
 public class PublicationResource {
     @Id
     @Column(name = "publication_resource_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

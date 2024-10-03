@@ -114,7 +114,7 @@ public class PublicationServiceImpl implements IPublicationService {
         publication.setDeletedAt(LocalDate.now());
 
         return BaseResponse.builder()
-                .data(repository.save(publication))
+                .data(toPublicationResponse(repository.save(publication)))
                 .message("Publication deleted successfully")
                 .success(Boolean.TRUE)
                 .httpStatus(HttpStatus.OK)

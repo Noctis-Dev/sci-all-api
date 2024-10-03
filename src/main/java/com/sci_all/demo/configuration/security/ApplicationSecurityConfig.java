@@ -48,7 +48,7 @@ public class ApplicationSecurityConfig {
                 .addFilterBefore(authorizationFilter, UserAuthenticationFilter.class);
 
         http.authorizeHttpRequests(auth -> {
-            auth.requestMatchers("/user/**").permitAll();
+            auth.requestMatchers("/**").permitAll();
         });
 
         return http.httpBasic(Customizer.withDefaults()).build();

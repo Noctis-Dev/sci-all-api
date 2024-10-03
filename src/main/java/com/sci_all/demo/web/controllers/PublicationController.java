@@ -22,7 +22,7 @@ public class PublicationController {
     public ResponseEntity<BaseResponse> getPublications(@RequestParam(required = true) int page,
                                                         @RequestParam(required = true) int size) {
 
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(--page, size);
         return service.getPublications(pageable).apply();
     }
 

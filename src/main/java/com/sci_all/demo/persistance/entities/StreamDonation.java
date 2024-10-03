@@ -13,33 +13,28 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "comments", schema = "sci_db", indexes = {
+@Table(name = "stream_donations", schema = "sci_db", indexes = {
         @Index(name = "author", columnList = "author"),
-        @Index(name = "publication", columnList = "publication"),
         @Index(name = "stream", columnList = "stream")
 })
-public class Comment {
+public class StreamDonation {
     @Id
-    @Column(name = "comment_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "donation_id", nullable = false)
     private Long id;
 
     @NotNull
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    @Column(name = "comment_uuid", nullable = false, length = 36)
+    @Column(name = "donation_uuid", nullable = false, length = 36)
     private UUID uuid;
 
-    @Size(max = 255)
-    @Column(name = "body")
-    private String body;
+    @NotNull
+    @Column(name = "amount", nullable = false)
+    private Float amount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author")
     private User author;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "publication")
-    private Publication publication;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stream")

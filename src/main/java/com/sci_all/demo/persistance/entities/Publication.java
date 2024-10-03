@@ -19,10 +19,10 @@ import java.util.UUID;
 })
 public class Publication {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "publication_id", nullable = false)
     private Long id;
 
-    @Size(max = 36)
     @NotNull
     @JdbcTypeCode(SqlTypes.VARCHAR)
     @Column(name = "publication_uuid", nullable = false, length = 36)

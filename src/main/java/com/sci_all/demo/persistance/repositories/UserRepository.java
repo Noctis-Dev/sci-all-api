@@ -13,6 +13,8 @@ public interface UserRepository extends IBaseRepository<User, Long> {
 
     Optional<User> findByUuidAndVerifyToken(UUID userUuid, String verifyToken);
     Optional<User> findByEmail(String email);
+
+    @Query("SELECT u FROM User u WHERE u.deletedAt IS NULL AND u.uuid = :userUuid")
     Optional<User> findByUuidAndDeletedAtEmpty(UUID userUuid);
 
 }

@@ -1,13 +1,12 @@
 package com.sci_all.demo.persistance.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Getter
 @Setter
@@ -16,10 +15,11 @@ import lombok.Setter;
 public class Resource {
     @Id
     @Column(name = "resource_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(max = 36)
     @NotNull
+    @JdbcTypeCode(SqlTypes.VARCHAR)
     @Column(name = "resource_uuid", nullable = false, length = 36)
     private String uuid;
 

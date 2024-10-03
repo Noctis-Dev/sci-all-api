@@ -57,6 +57,14 @@ CREATE TABLE `streams` (
   `publication` bigint
 );
 
+CREATE TABLE `stream_donations` (
+  `donation_id` bigint PRIMARY KEY AUTO_INCREMENT,
+  `donation_uuid` varchar(36) NOT NULL,
+  `amount` float NOT NULL,
+  `author` bigint,
+  `stream` bigint
+);
+
 CREATE TABLE `stream_resources` (
   `stream_resource_id` bigint PRIMARY KEY AUTO_INCREMENT,
   `stream` bigint NOT NULL,
@@ -106,6 +114,10 @@ ALTER TABLE `publication_resources` ADD FOREIGN KEY (`resource`) REFERENCES `res
 ALTER TABLE `streams` ADD FOREIGN KEY (`publication`) REFERENCES `publications` (`publication_id`);
 
 ALTER TABLE `stream_resources` ADD FOREIGN KEY (`stream`) REFERENCES `streams` (`stream_id`);
+
+ALTER TABLE `stream_donations` ADD FOREIGN KEY (`author`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `stream_donations` ADD FOREIGN KEY (`stream`) REFERENCES `streams` (`stream_id`);
 
 ALTER TABLE `stream_resources` ADD FOREIGN KEY (`resource`) REFERENCES `resources` (`resource_id`);
 

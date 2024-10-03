@@ -23,7 +23,6 @@ public class PublicationLike {
     @Column(name = "like_id", nullable = false)
     private Long id;
 
-    @Size(max = 36)
     @NotNull
     @JdbcTypeCode(SqlTypes.VARCHAR)
     @Column(name = "like_uuid", nullable = false, length = 36)
