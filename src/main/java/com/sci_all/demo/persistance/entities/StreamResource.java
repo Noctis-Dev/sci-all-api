@@ -15,6 +15,7 @@ import lombok.Setter;
 public class StreamResource {
     @Id
     @Column(name = "stream_resource_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull

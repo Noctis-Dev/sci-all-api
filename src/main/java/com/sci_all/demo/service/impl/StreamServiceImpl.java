@@ -25,7 +25,7 @@ public class StreamServiceImpl implements IStreamService {
 
     @Override
     public BaseResponse getStream(UUID streamId) {
-        Stream stream = repository.findByUuid(streamId).orElseThrow(EntityNotFoundException::new);
+        Stream stream = findOneAndEnsureExist(streamId);
 
         return BaseResponse.builder()
                 .data(stream)
@@ -53,6 +53,11 @@ public class StreamServiceImpl implements IStreamService {
                 .success(Boolean.TRUE)
                 .status(200)
                 .httpStatus(HttpStatus.OK).build();
+    }
+
+    @Override
+    public Stream findOneAndEnsureExist(UUID streamId) {
+        return repository.findByUuid(streamId).orElseThrow(EntityNotFoundException::new);
     }
 
     private StreamResponse toStreamResponse(Stream stream) {

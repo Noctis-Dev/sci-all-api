@@ -21,9 +21,9 @@ import java.util.UUID;
 public class Session {
     @Id
     @Column(name = "session_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(max = 36)
     @NotNull
     @JdbcTypeCode(SqlTypes.VARCHAR)
     @Column(name = "session_uuid", nullable = false, length = 36)

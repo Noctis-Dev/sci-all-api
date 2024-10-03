@@ -19,15 +19,14 @@ import java.util.UUID;
 public class Stream {
     @Id
     @Column(name = "stream_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(max = 36)
     @NotNull
     @JdbcTypeCode(SqlTypes.VARCHAR)
     @Column(name = "stream_uuid", nullable = false, length = 36)
     private UUID uuid;
 
-    @Size(max = 36)
     @JdbcTypeCode(SqlTypes.VARCHAR)
     @Column(name = "stream_token", length = 36)
     private UUID streamToken;
