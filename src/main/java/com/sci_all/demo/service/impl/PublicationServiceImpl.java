@@ -121,6 +121,11 @@ public class PublicationServiceImpl implements IPublicationService {
                 .status(200).build();
     }
 
+    @Override
+    public Publication findOneAndEnsureExist(UUID publicationId) {
+        return repository.findByUuid(publicationId).orElseThrow(EntityNotFoundException::new);
+    }
+
     private void update(Publication publication, PublicationRequest request) {
         publication.setBody(request.body());
     }
