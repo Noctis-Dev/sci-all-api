@@ -59,7 +59,7 @@ public class DonationServiceImpl implements IDonationService {
 
         PreferenceRequest preferenceRequest = PreferenceRequest.builder()
                 .items(List.of(item))
-                .payer(PreferencePayerRequest.builder().email(request.email()).build())
+                .payer(PreferencePayerRequest.builder().email(user.getEmail()).build())
                 .build();
 
         Preference preference = null;

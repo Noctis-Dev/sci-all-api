@@ -17,10 +17,8 @@ public class DonationController {
     private IDonationService service;
 
     @PostMapping
-    public ResponseEntity<BaseResponse> createDonation(@RequestBody DonationRequest request,
-                                                       @RequestParam UUID streamId,
-                                                       @RequestParam UUID authorId) {
-        return service.donateToStream(streamId, authorId, request).apply();
+    public ResponseEntity<BaseResponse> createDonation(@RequestBody DonationRequest request) {
+        return service.donateToStream(request.streamId(), request.authorId(), request).apply();
     }
 
 }

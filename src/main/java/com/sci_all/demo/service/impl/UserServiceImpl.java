@@ -3,7 +3,7 @@ package com.sci_all.demo.service.impl;
 import com.sci_all.demo.persistance.entities.User;
 import com.sci_all.demo.persistance.repositories.UserRepository;
 import com.sci_all.demo.service.IRoleService;
-import com.sci_all.demo.service.ITwilioService;
+import com.sci_all.demo.service.VerificationCodeService;
 import com.sci_all.demo.service.IUserService;
 import com.sci_all.demo.utils.UUIDUtils;
 import com.sci_all.demo.web.dto.BaseResponse;
@@ -11,6 +11,7 @@ import com.sci_all.demo.web.dto.request.UserRequest;
 import com.sci_all.demo.web.dto.response.UserResponse;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,8 @@ public class UserServiceImpl implements IUserService {
     private IRoleService roleService;
 
     @Autowired
-    private ITwilioService twilioService;
+    @Qualifier("twilioServiceImpl")
+    private VerificationCodeService wspServiceImpl;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -55,7 +57,7 @@ public class UserServiceImpl implements IUserService {
         user.setUuid(userUuid);
         user.setVerifyToken(generateVerifyCode());
 
-        twilioService.sendVerificationCode(user.getPhoneNumber(), user.getVerifyToken());
+        wspServiceImpl.sendVerificationCode(user.getPhoneNumber(), user.getVerifyToken());
 
         return BaseResponse.builder()
                 .data(toUserResponse(repository.save(user)))

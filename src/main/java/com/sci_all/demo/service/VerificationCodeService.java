@@ -1,6 +1,6 @@
 package com.sci_all.demo.service;
 
-public interface ITwilioService {
+public interface VerificationCodeService {
 
     void sendVerificationCode(String phoneNumber, String code);
 
