@@ -32,15 +32,14 @@ public class PublicationController {
     }
 
     @PostMapping
-    public ResponseEntity<BaseResponse> createPublication(@RequestBody PublicationRequest request,
-                                                          @RequestParam UUID userId) {
-        return service.createPublication(request, userId).apply();
+    public ResponseEntity<BaseResponse> createPublication(@RequestBody PublicationRequest request) {
+        return service.createPublication(request, request.userId()).apply();
     }
 
     @PostMapping("{publicationId}/like")
     public ResponseEntity<BaseResponse> publicationLike(@PathVariable UUID publicationId,
-                                                        @RequestParam(required = true) UUID userId) {
-        return service.publicationLike(publicationId, userId).apply();
+                                                        @RequestBody PublicationRequest request) {
+        return service.publicationLike(publicationId, request.userId()).apply();
     }
 
     @PutMapping("/{publicationId}")
